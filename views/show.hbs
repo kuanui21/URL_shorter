@@ -8,9 +8,11 @@
   </div>
   <form action="/" method="POST">
     <div>
-      <input class="form-control mb-4 bg-light" type="text" name="url" placeholder="Input URL here"
-        aria-label="input URL here" style="max-width: 600px;" required>
-      <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Shorten</button>
+      <div class="mb-4">
+        <h3>Success! Please use this link:</h3>
+        <a href="./show/{{shortUrl}}">http://localhost:3000/show/{{shortUrl}}</a>
+      </div>
+      <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Copy</button>
     </div>
   </form>
 </div>

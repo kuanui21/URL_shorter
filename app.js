@@ -3,6 +3,11 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
+const Url = require('./models/url')
+const generateShortUrl = require('./generate_shortUrl')
+
+const shortUrl = generateShortUrl()
+
 const app = express()
 const port = 3000
 
@@ -25,6 +30,17 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
   res.render('index')
+})
+
+app.post('/', (req, res) => {
+  const url = req.body.url
+  return Url.create({ url, short_url: shortUrl })
+    .then(() => res.redirect('/show'))
+    .catch(error => console.log(error))
+})
+
+app.get('/show', (req, res) => {
+  res.render('show', { shortUrl })
 })
 
 app.listen(port, () => {
