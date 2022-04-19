@@ -19,7 +19,7 @@ db.once('open', () => {
 
     urlModel.create({
       url: `http://url-${i}`,
-      short_url: `http://short_url-${i}/${shortUrl}`
+      short_url: `${shortUrl}`
     })
   }
 
