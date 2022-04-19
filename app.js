@@ -2,8 +2,9 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const validUrl = require('valid-url')
 
-const Url = require('./models/url')
+const urlModel = require('./models/urlModel')
 const generateShortUrl = require('./generate_shortUrl')
 
 const shortUrl = generateShortUrl()
@@ -34,9 +35,26 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   const url = req.body.url
-  return Url.create({ url, short_url: shortUrl })
-    .then(() => res.redirect('/show'))
-    .catch(error => console.log(error))
+
+  if (validUrl.isUri(url)) {
+    urlModel.find({ url })
+      .lean()
+      .then(longUrl => {
+        const filterUrl = longUrl.filter(InputUrl => InputUrl.url.includes(url))
+
+        if (filterUrl.length > 0) {
+          console.log('有重複資料')
+          const filterShortUrl = filterUrl[0].short_url
+          res.render('index', { isSomeUrl: "true", shortUrl: filterShortUrl })
+        } else {
+          return urlModel.create({ url, short_url: shortUrl })
+            .then(() => res.render('show', { shortUrl }))
+            .catch(error => console.log(error))
+        }
+      })
+  } else {
+    res.render('index', { isUrl: "false" })
+  }
 })
 
 app.get('/show', (req, res) => {

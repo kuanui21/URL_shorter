@@ -1,4 +1,4 @@
-const Url = require('../Url') // 載入 Url model
+const urlModel = require('../urlModel') // 載入 Url model
 const mongoose = require('mongoose')
 
 const generateShortUrl = require('../../generate_shortUrl')
@@ -17,7 +17,7 @@ db.once('open', () => {
   for (let i = 0; i < 3; i++) {
     const shortUrl = generateShortUrl()
 
-    Url.create({
+    urlModel.create({
       url: `http://url-${i}`,
       short_url: `http://short_url-${i}/${shortUrl}`
     })

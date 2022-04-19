@@ -12,5 +12,19 @@
         aria-label="input URL here" style="max-width: 600px;" required>
       <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Shorten</button>
     </div>
+
+    {{#if isUrl}}
+    <div class="alert alert-info" role="alert">
+      <h5 class="m-2" style="color: brown;">Please input a valid URL.</h5>
+    </div>
+    {{/if}}
+
+    {{#if isSomeUrl}}
+    <div class="alert alert-info" role="alert">
+      <h5 class="m-2">The URL already has shorter link:</h5>
+      <a href="./show/{{shortUrl}}">http://localhost:3000/show/{{shortUrl}}</a>
+    </div>
+    {{/if}}
+
   </form>
 </div>
