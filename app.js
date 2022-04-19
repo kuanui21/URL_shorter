@@ -7,8 +7,6 @@ const validUrl = require('valid-url')
 const urlModel = require('./models/urlModel')
 const generateShortUrl = require('./generate_shortUrl')
 
-const shortUrl = generateShortUrl()
-
 const app = express()
 const port = 3000
 
@@ -41,24 +39,21 @@ app.post('/', (req, res) => {
       .lean()
       .then(longUrl => {
         const filterUrl = longUrl.filter(InputUrl => InputUrl.url.includes(url))
+        const shortUrl = generateShortUrl()
 
         if (filterUrl.length > 0) {
           console.log('有重複資料')
           const filterShortUrl = filterUrl[0].short_url
-          res.render('index', { isSomeUrl: "true", shortUrl: filterShortUrl })
+          res.render('index', { isSomeUrl: "true", url, shortUrl: filterShortUrl })
         } else {
           return urlModel.create({ url, short_url: shortUrl })
-            .then(() => res.render('show', { shortUrl }))
+            .then(() => res.render('show', { url, shortUrl }))
             .catch(error => console.log(error))
         }
       })
   } else {
     res.render('index', { isUrl: "false" })
   }
-})
-
-app.get('/show', (req, res) => {
-  res.render('show', { shortUrl })
 })
 
 app.listen(port, () => {
