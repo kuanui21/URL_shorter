@@ -56,6 +56,23 @@ app.post('/', (req, res) => {
   }
 })
 
+app.get("/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL
+  console.log(shortURL)
+  urlModel.findOne({ shortURL })
+    .then(data => {
+      if (!data) {
+        return res.render("error", {
+          errorMsg: "Can't found the URL",
+          errorURL: req.headers.host + "/" + shortURL,
+        })
+      }
+
+      res.redirect(data.url)
+    })
+    .catch(error => console.error(error))
+})
+
 app.listen(port, () => {
   console.log(`Express App is running on http://localhost:${port}`)
 })

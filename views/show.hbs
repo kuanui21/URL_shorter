@@ -10,9 +10,20 @@
     <div>
       <div class="mb-4">
         <h3>Success! Please use this link:</h3>
-        <a href="{{url}}" target="_blank">http://localhost:3000/show/{{shortUrl}}</a>
+        <a href="{{url}}" target="_blank" id="copyText">http://localhost:3000/{{shortUrl}}</a>
       </div>
-      <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Copy</button>
+      <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;"
+        onclick="copyEvent()">Copy</button>
+
+      <script>
+        function copyEvent() {
+          const URL = document.getElementById("copyText")
+          navigator.clipboard.writeText(URL.innerText)
+            .then(() => alert('copied'))
+            .catch(error => console.log(error))
+        }
+      </script>
+
     </div>
   </form>
 </div>

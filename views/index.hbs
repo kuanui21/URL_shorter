@@ -9,7 +9,7 @@
   <form action="/" method="POST">
     <div>
       <input class="form-control mb-4 bg-light" type="text" name="url" placeholder="Input URL here"
-        aria-label="input URL here" style="max-width: 600px;" required>
+        aria-label="input URL here" style="max-width: 600px;" value="{{ url }}" required>
       <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Shorten</button>
     </div>
 
@@ -22,7 +22,17 @@
     {{#if isSomeUrl}}
     <div class="alert alert-info" role="alert">
       <h5 class="m-2">The URL already has shorter link:</h5>
-      <a href="{{url}}" target="_blank">http://localhost:3000/show/{{shortUrl}}</a>
+      <a href="{{url}}" target="_blank" id="copyText">http://localhost:3000/{{shortUrl}}</a>
+      <button class="btn btn-outline-primary btn-sm ml-5" type="submit" onclick="copyEvent()">Copy</button>
+
+      <script>
+        function copyEvent() {
+          const URL = document.getElementById("copyText")
+          navigator.clipboard.writeText(URL.innerText)
+            .then(() => alert('copied'))
+            .catch(error => console.log(error))
+        }
+      </script>
     </div>
     {{/if}}
 
