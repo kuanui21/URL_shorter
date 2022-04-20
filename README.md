@@ -1,5 +1,7 @@
 # URL shortener 短網址產生器
 
+![Index page about Restaurant List](./public/URL_shorter.png)
+
 ## 介紹
 產生一組短的網址，以代替原來可能較長的網址，並讓使用者可以在其他地方任意使用。
 

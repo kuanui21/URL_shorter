@@ -43,17 +43,14 @@ app.post('/', (req, res) => {
   }
 })
 
-app.get("/:shortURL", (req, res) => {
-  const shortURL = req.params.shortURL
-  urlModel.findOne({ short_url: shortURL })
+app.get("/:InputShortUrl", (req, res) => {
+  const InputShortUrl = req.params.InputShortUrl
+  console.log(InputShortUrl)
+  urlModel.findOne({ short_url: InputShortUrl })
     .then(data => {
       if (!data) {
-        return res.render("error", {
-          errorMsg: "Can't found the URL",
-          errorURL: req.headers.host + "/" + shortURL,
-        })
+        return res.render('index', { isError: "true", InputShortUrl })
       }
-      console.log(data.url)
       res.redirect(data.url)
     })
     .catch(error => console.error(error))
