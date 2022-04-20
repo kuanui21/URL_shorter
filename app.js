@@ -30,7 +30,6 @@ app.post('/', (req, res) => {
         const shortUrl = generateShortUrl()
 
         if (filterUrl.length > 0) {
-          console.log('有重複資料')
           const filterShortUrl = filterUrl[0].short_url
           res.render('index', { isSomeUrl: "true", url, shortUrl: filterShortUrl })
         } else {
@@ -46,7 +45,6 @@ app.post('/', (req, res) => {
 
 app.get("/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL
-  console.log(shortURL)
   urlModel.findOne({ short_url: shortURL })
     .then(data => {
       if (!data) {
