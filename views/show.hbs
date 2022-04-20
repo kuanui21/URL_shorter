@@ -12,14 +12,14 @@
         <h3>Success! Please use this link:</h3>
         <a href="{{url}}" target="_blank" id="copyText">http://localhost:3000/{{shortUrl}}</a>
       </div>
-      <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;"
+      <button class="btn btn-primary mb-3" type="submit" style="width: 250px;"
         onclick="copyEvent()">Copy</button>
 
       <script>
         function copyEvent() {
           const URL = document.getElementById("copyText")
           navigator.clipboard.writeText(URL.innerText)
-            .then(() => alert('copied'))
+            .then(() => alert('Copied'))
             .catch(error => console.log(error))
         }
       </script>

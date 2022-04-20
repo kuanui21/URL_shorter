@@ -1,26 +1,14 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 const validUrl = require('valid-url')
 
 const urlModel = require('./models/urlModel')
 const generateShortUrl = require('./generate_shortUrl')
+require('./config/mongoose')
 
 const app = express()
 const port = 3000
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
@@ -59,7 +47,7 @@ app.post('/', (req, res) => {
 app.get("/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL
   console.log(shortURL)
-  urlModel.findOne({ shortURL })
+  urlModel.findOne({ short_url: shortURL })
     .then(data => {
       if (!data) {
         return res.render("error", {
@@ -67,7 +55,7 @@ app.get("/:shortURL", (req, res) => {
           errorURL: req.headers.host + "/" + shortURL,
         })
       }
-
+      console.log(data.url)
       res.redirect(data.url)
     })
     .catch(error => console.error(error))
