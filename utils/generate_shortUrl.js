@@ -1,17 +1,4 @@
 const Url = require('../models/Url')
-const mongoose = require('mongoose')
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('generate mongodb error!')
-})
-
-db.once('open', () => {
-  console.log('generate mongodb connected!')
-})
 
 function sample (array) {
   const index = Math.floor(Math.random() * array.length)

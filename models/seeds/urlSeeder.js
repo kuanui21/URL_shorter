@@ -1,17 +1,15 @@
 const Url = require('../Url') // 載入 Url model
 const db = require('../../config/mongoose')
 
-const generateShortUrl = require('../../utils/generate_shortUrl')
+const urlList = require('./urlList.json')
 
 db.once('open', () => {
-  for (let i = 1; i <= 3; i++) {
-    const shortUrl = generateShortUrl()
-
+  urlList.results.forEach(urlSeed => {
     Url.create({
-      url: `http://url-${i}`,
-      short_url: `${shortUrl}`
+      url: urlSeed.url,
+      short_url: urlSeed.short_url
     })
-  }
+  })
 
   console.log('done')
 })

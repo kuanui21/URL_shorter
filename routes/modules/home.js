@@ -10,21 +10,18 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const url = req.body.url
+  const inputUrl = req.body.url
 
-  if (validUrl.isUri(url)) { // 用 validUrl 偵測輸入網址是否為 url
-    Url.find({ url }) // 是 url 的話，搜尋資料庫是否有重複的 url
+  if (validUrl.isUri(inputUrl)) { // 用 validUrl 偵測輸入網址是否為 url
+    Url.findOne({ url: inputUrl }) // 是 url 的話，搜尋資料庫是否有重複的 url
       .lean()
-      .then(longUrl => {
-        const filterUrl = longUrl.filter(InputUrl => InputUrl.url.includes(url))
+      .then(haveUrl => {
         const shortUrl = generateShortUrl()
-
-        if (filterUrl.length > 0) { // 有重複的 url ，網頁顯示對應的短網址
-          const filterShortUrl = filterUrl[0].short_url
-          res.render('index', { sameUrl: 'true', url, shortUrl: filterShortUrl })
+        if (haveUrl) { // 有重複的 url ，網頁顯示對應的短網址
+          res.render('index', { sameUrl: 'true', url: inputUrl, short_url: haveUrl.short_url })
         } else { // 沒有重複，則建立建立新的短網址
-          return Url.create({ url, short_url: shortUrl })
-            .then(() => res.render('show', { url, shortUrl }))
+          return Url.create({ url: inputUrl, short_url: shortUrl })
+            .then(() => res.render('show', { url: inputUrl, short_url: shortUrl }))
             .catch(error => console.log(error))
         }
       })
