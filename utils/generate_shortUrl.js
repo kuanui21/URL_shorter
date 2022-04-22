@@ -1,4 +1,4 @@
-const urlModel = require('./models/urlModel')
+const Url = require('../models/Url')
 const mongoose = require('mongoose')
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -13,13 +13,13 @@ db.once('open', () => {
   console.log('generate mongodb connected!')
 })
 
-function sample(array) {
+function sample (array) {
   const index = Math.floor(Math.random() * array.length)
   return array[index]
 }
 
-function checkShortUrl(shortUrlCCC) {
-  urlModel.find({})
+function checkShortUrl (shortUrlCCC) {
+  Url.find({})
     .lean()
     .then(ShortUrlList => {
       shortUrlCCC = String(shortUrlCCC)
@@ -32,10 +32,10 @@ function checkShortUrl(shortUrlCCC) {
     })
 }
 
-function generateShortUrl() {
+function generateShortUrl () {
   const lettersAndNum = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
-  let collection = lettersAndNum.split('')
+  const collection = lettersAndNum.split('')
 
   let shortUrl = ''
   for (let i = 1; i <= 5; i++) {
