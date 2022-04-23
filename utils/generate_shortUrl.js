@@ -1,22 +1,24 @@
 const Url = require('../models/Url')
+const db = require('../config/mongoose')
 
 function sample (array) {
   const index = Math.floor(Math.random() * array.length)
   return array[index]
 }
 
-function checkShortUrl (shortUrlCCC) {
-  Url.find({})
-    .lean()
-    .then(ShortUrlList => {
-      shortUrlCCC = String(shortUrlCCC)
-      const checkShortUrl = ShortUrlList.some(DBshortUrl => DBshortUrl.short_url === shortUrlCCC)
-
-      if (checkShortUrl) {
-        console.log(shortUrlCCC, '有重複的短網址')
-        generateShortUrl()
-      }
-    })
+function checkShortUrl (newShortUrl) {
+  db.once('open', () => {
+    Url.findOne({ short_url: newShortUrl }) // 搜尋資料庫是否有重複的 short_url
+      .lean()
+      .then(haveUrl => {
+        if (haveUrl) { // 有重複的 short_url ，重新產生
+          generateShortUrl()
+        } else {
+          console.log('沒有重複')
+        }
+      })
+      .catch(error => console.log(error))
+  })
 }
 
 function generateShortUrl () {
@@ -25,7 +27,7 @@ function generateShortUrl () {
   const collection = lettersAndNum.split('')
 
   let shortUrl = ''
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 1; i++) {
     shortUrl += sample(collection)
   }
 
