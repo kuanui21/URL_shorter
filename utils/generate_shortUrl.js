@@ -27,7 +27,7 @@ function generateShortUrl () {
   const collection = lettersAndNum.split('')
 
   let shortUrl = ''
-  for (let i = 1; i <= 1; i++) {
+  for (let i = 1; i <= 5; i++) {
     shortUrl += sample(collection)
   }
 

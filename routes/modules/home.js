@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
       .then(haveUrl => {
         const shortUrl = generateShortUrl()
         if (haveUrl) { // 有重複的 url ，網頁顯示對應的短網址
-          res.render('index', { sameUrl: 'true', url: inputUrl, short_url: haveUrl.short_url })
+          res.render('index', { isSameUrl: true, url: inputUrl, short_url: haveUrl.short_url })
         } else { // 沒有重複，則建立建立新的短網址
           return Url.create({ url: inputUrl, short_url: shortUrl })
             .then(() => res.render('show', { url: inputUrl, short_url: shortUrl }))
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
         }
       })
   } else { // 不是 url 的話，網頁顯示錯誤提示訊息
-    res.render('index', { notUrl: 'true' })
+    res.render('index', { isNotUrl: true })
   }
 })
 
@@ -36,7 +36,7 @@ router.get('/:inputShortUrl', (req, res) => {
   Url.findOne({ short_url: inputShortUrl }) // 在資料庫搜尋該輸入的短網址
     .then(data => {
       if (!data) { // 沒有的話，網頁顯示錯誤提示訊息
-        return res.render('index', { errorUrl: 'true', inputShortUrl })
+        return res.render('index', { isErrorUrl: true, inputShortUrl })
       }
       res.redirect(data.url) // 有的話，則跳轉至對應的原本網址
     })

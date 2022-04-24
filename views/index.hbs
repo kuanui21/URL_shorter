@@ -13,13 +13,13 @@
       <button class="btn btn-outline-primary mb-3" type="submit" style="width: 250px;">Shorten</button>
     </div>
 
-    {{#if notUrl}}
+    {{#if isNotUrl}}
     <div class="alert alert-info" role="alert">
       <h5 class="m-2" style="color: brown;">Please input a valid URL.</h5>
     </div>
     {{/if}}
 
-    {{#if sameUrl}}
+    {{#if isSameUrl}}
     <div class="alert alert-info" role="alert">
       <h5 class="m-2">The URL already has shorter link:</h5>
       <a href="{{ url }}" target="_blank" id="copyText" class="mx-3">http://localhost:3000/{{short_url}}</a>
@@ -36,7 +36,7 @@
     </div>
     {{/if}}
 
-    {{#if errorUrl}}
+    {{#if isErrorUrl}}
     <div class="alert alert-info" role="alert">
       <h5 class="m-2" style="color: brown;">Can't found the URL:</h5>
       <h5>http://localhost:3000/{{inputShortUrl}}</h5>
